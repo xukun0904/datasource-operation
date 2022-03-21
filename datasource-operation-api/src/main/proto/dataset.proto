@@ -1,0 +1,99 @@
+syntax = "proto3";
+package dataset;
+option java_multiple_files = true;
+option java_package = "com.jhr.datasource.operation.api.grpc.dataset";
+option java_outer_classname = "DataSetProto";
+import "responseresult.proto";
+
+enum DataSourceType{
+  DST_NOT_SPECIFIED = 0;
+  RDBMS = 1;
+  BIG_DATA = 2;
+  MQ = 3;
+  FILE_SERVER = 4;
+}
+
+enum ConfFileType{
+  CFT_NOT_SPECIFIED = 0;
+  KRB5_CONF = 1;
+  USER_KEYTAB = 2;
+  CORE_SITE_XML = 3;
+  HDFS_SITE_XML = 4;
+  HBASE_SITE_XML = 5;
+}
+
+message ConfFileInfo{
+  DataSourceType dsource_type = 1;
+  string conf_file_path = 2;
+  ConfFileType conf_file_type = 3;
+  string local_conf_file_path = 4;
+}
+
+enum DataConnType{
+  DCT_NOT_SPECIFIED = 0;
+  GAUSS_DB = 1;
+  MYSQL = 2;
+  ORACLE = 3;
+  HIVE = 21;
+  HBASE = 22;
+  KAFKA = 31;
+  FTP = 41;
+  SFTP = 42;
+  HDFS = 43;
+}
+
+enum AuthType{
+  AT_NOT_SPECIFIED = 0;
+  NORMAL = 1;
+  KERBEROS = 2;
+}
+
+enum DataSourceMfrs{
+  DSM_NOT_SPECIFIED = 0;
+  NL = 1;
+  HW = 7;
+}
+
+enum ConnectType{
+  CT_NOT_SPECIFIED = 0;
+  SID = 1;
+  SERVICE_NAME = 2;
+}
+
+message ConnectionInfo{
+  string id = 1;
+  string ip = 2;
+  string port = 3;
+  string db_name = 4;
+  string username = 5;
+  string password = 6;
+  string schema = 7;
+  string ip_and_port = 8;
+  AuthType auth_type = 9;
+  string service_discovery_mode = 10;
+  string zookeeper_namespace = 11;
+  string sasl_qop = 12;
+  string principal = 13;
+  string user_principal = 14;
+  repeated ConfFileInfo conf_file = 15;
+  DataConnType dsource_type = 16;
+  string advance_param_conf = 17;
+  string driver_class_name = 18;
+  string table_name = 19;
+  string sql_map = 20;
+  DataSourceMfrs dsource_mfrs = 21;
+  ConnectType connect_type = 22;
+}
+
+message RowData{
+  map<string, string> row_data = 1;
+}
+
+message DataSet{
+  repeated RowData dataset = 1;
+  int64 total = 2;
+}
+
+service DataSetService {
+  rpc QueryForList(ConnectionInfo) returns (response.ResponseResult) {}
+}

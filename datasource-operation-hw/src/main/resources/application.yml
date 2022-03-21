@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: datasource-operation-hw
+server:
+  port: 10201

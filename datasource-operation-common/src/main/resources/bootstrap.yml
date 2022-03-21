@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 3.7.191.1:8848
+      config:
+        file-extension: yml
+        shared-configs[0]:
+          data-id: datasource-operation-common.yml
+          group: DATASOURCE_OPERATION
+        group: DATASOURCE_OPERATION
+        server-addr: 3.7.191.1:8848
